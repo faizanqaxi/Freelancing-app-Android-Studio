@@ -1,0 +1,301 @@
+CREATE TABLE  IF NOT EXISTS User
+(
+	user_id integer not null unique auto_increment,
+	email varchar(50) not null unique,
+	fname varchar(30) not null, 
+	lname varchar(30),
+	password varchar(30) not null,
+pno varchar(30),
+	dob date,
+    age integer,
+    bio varchar(100),
+    user_rank varchar(50),
+    rating integer,
+    
+    constraint User_pk
+		PRIMARY KEY (user_id)
+);
+
+CREATE TABLE  IF NOT EXISTS JobCategory
+(
+	category_id integer not null unique auto_increment,
+    category_title varchar(50),
+    category_type varchar(50),
+    category_description varchar(500),
+    category_details varchar(1000),
+    
+	constraint JobCategory_pk
+		PRIMARY KEY (category_id)
+
+);
+
+CREATE TABLE  IF NOT EXISTS Job
+(	
+	job_id integer not null unique auto_increment,
+    seller_id integer not null,
+	title varchar(50),
+	offered_price varchar(30),
+    job_description varchar(500),
+	details varchar(1000),
+    posted_date date,
+    job_assigned varchar(50),
+    job_status varchar(50),
+    job_type varchar(20),
+	category_id integer,
+    
+    constraint Job_pk
+		PRIMARY KEY (job_id),
+        
+	constraint Job_seller_id_fk
+		FOREIGN KEY(seller_id) 
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	constraint Job_category_id_fk
+		FOREIGN KEY(category_id) 
+        references JobCategory (category_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+        
+	
+);
+
+CREATE TABLE IF NOT EXISTS worksOnJob
+(
+	job_id integer not null ,
+    buyer_id integer not null ,
+    
+    CONSTRAINT WorksOn_pk
+		PRIMARY KEY(job_id, buyer_id),
+        
+	CONSTRAINT WorksOn_job_id_fk
+		FOREIGN KEY(job_id)
+        references Job(job_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	CONSTRAINT WorksOn_buyer_id_fk
+		FOREIGN KEY(buyer_id)
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    
+);
+
+
+CREATE TABLE  IF NOT EXISTS Payment
+(
+    job_id integer not null unique,
+    amount integer,
+    payment_option varchar(50),
+    payment_status varchar(20),
+    
+	constraint Payment_pk
+		PRIMARY KEY (job_id),
+
+	CONSTRAINT Payment_job_id_fk
+		FOREIGN KEY(job_id)
+        references Job(job_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE  IF NOT EXISTS Message
+(
+	message_id integer not null unique auto_increment,
+    message varchar(10000),
+    message_time TIMESTAMP,
+    message_file varchar(500),
+    
+	constraint Message_pk
+		PRIMARY KEY (message_id)
+
+);
+
+CREATE TABLE  IF NOT EXISTS chatMessage
+(
+	message_id  integer not null unique auto_increment,
+    sender_id integer not null,
+    reciever_id integer not null,
+    
+    constraint Chat_pk
+		PRIMARY KEY (message_id),
+      
+	constraint Chat_message_id_fk
+		FOREIGN KEY(message_id) 
+        references Message(message_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	constraint Chat_sender_id_fk
+		FOREIGN KEY(sender_id) 
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	constraint Chat_reciever_id_fk
+		FOREIGN KEY(reciever_id) 
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+CREATE TABLE  IF NOT EXISTS Review
+(
+	review_id integer not null unique auto_increment,
+    reviewer_id integer not null,
+    reviewed_to_id integer not null,
+    job_id integer not null,
+    rating integer,
+    review varchar(10000),
+    
+	constraint Review_pk
+		PRIMARY KEY (review_id)
+
+);
+
+CREATE TABLE  IF NOT EXISTS reviews
+(
+	review_id integer not null unique auto_increment,
+    reviewer_id integer not null,
+    reviewed_to_id integer not null,
+    job_id integer not null,
+    
+    constraint rewiews_pk
+		PRIMARY KEY (review_id),
+	
+     CONSTRAINT reviews_review_id_fk
+		FOREIGN KEY(review_id)
+        references Review(review_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+    CONSTRAINT reviews_reviewer_id_fk
+		FOREIGN KEY(reviewer_id)
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	CONSTRAINT reviews_reviewed_to_id_fk
+		FOREIGN KEY(reviewed_to_id)
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	CONSTRAINT reviews_job_id_fk
+		FOREIGN KEY(job_id)
+        references Job(job_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+    
+);
+
+CREATE TABLE  IF NOT EXISTS GigCategory
+(
+	category_id integer not null unique auto_increment,
+    categry_title varchar(50),
+    category_type varchar(30),
+    category_description varchar(500),
+    category_details varchar(1000),
+    
+	constraint GigCategory_pk
+		PRIMARY KEY (category_id)
+
+);
+
+CREATE TABLE  IF NOT EXISTS Gig
+(
+	gig_id integer not null unique auto_increment,
+    gig_type varchar(30),
+    title varchar(50),
+    category_id integer,
+    gig_description varchar(500),
+    details varchar(1000),
+    
+	constraint Gig_pk
+		PRIMARY KEY (gig_id),
+        
+	CONSTRAINT Gig_category_id_fk
+		FOREIGN KEY(category_id)
+        references GigCategory(category_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+
+);
+
+CREATE TABLE  IF NOT EXISTS hasGig
+(
+	user_id integer not null,
+    gig_id integer not null,
+    
+	constraint hasGig_pk
+		PRIMARY KEY (user_id, gig_id),
+        
+	CONSTRAINT hasGig_user_id_fk
+		FOREIGN KEY(user_id)
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	CONSTRAINT hasGig_gig_id_fk
+		FOREIGN KEY(gig_id)
+        references Gig(gig_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+
+);
+
+
+
+CREATE TABLE  IF NOT EXISTS Notification
+(
+	notification_id integer not null unique auto_increment,
+    notification_text varchar(100),
+    notification_time TIMESTAMP,
+    
+	constraint Notification_pk
+		PRIMARY KEY (notification_id)
+
+);
+
+
+CREATE TABLE  IF NOT EXISTS hasNotification
+(
+	user_id integer not null,
+    notification_id integer not null,
+    
+	constraint hasNotification_pk
+		PRIMARY KEY (user_id, notification_id),
+        
+	CONSTRAINT hasNotification_user_id_fk
+		FOREIGN KEY(user_id)
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+        
+	CONSTRAINT hasNotification_notification_id_fk
+		FOREIGN KEY(notification_id)
+        references Notification(notification_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+
+);
+CREATE TABLE  IF NOT EXISTS Search
+(	
+	search_id integer not null unique auto_increment,
+	user_id integer not null,
+    search_item varchar(100),
+    
+    constraint Search_pk
+		PRIMARY KEY (search_id),
+        
+	constraint Search_user_id_fk
+		FOREIGN KEY(user_id) 
+        references User(user_id)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+        
+        
+	
+);

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="1dp"
+    android:backgroundTint="#E8AF3E"
+    android:outlineAmbientShadowColor="@color/colorPrimary"   >          >
+    <LinearLayout
+        android:id="@+id/messageitemlinearlayput"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="4dp"
+        android:padding="10dp"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/chatUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:textColor="@color/colorPrimary"
+            android:textSize="25dp"
+            ></TextView>
+
+    <LinearLayout
+        android:id="@+id/messageitemlinearlayput2"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/chatMessage"
+            android:layout_width="310dp"
+            android:layout_height="wrap_content"
+            android:text="Last message Text"
+            android:textSize="20dp"
+            ></TextView>
+
+        <TextView
+            android:id="@+id/messageDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:layout_marginLeft="15dp"
+            android:text="date"
+            android:textSize="10dp"
+            ></TextView>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

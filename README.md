@@ -1,3 +1,7 @@
+* A freelancing app in Android Studio using Java
+* Used SQLite as a database
+* Implemented and built user signup, login, newsfeed, profiles, add jobs, notifications and more
+
 NOTE:
 /******************************************/
 -Android studio project file of APP is attached named Helpyar

@@ -1,6 +1,6 @@
 * A freelancing app in Android Studio using Java
 * Used SQLite as a database
-* Implemented and built user signup, login, newsfeed, profiles, add jobs, notifications and more
+* Implemented and built user signup, login, newsfeed, chats, profiles, add jobs, notifications and more
 
 NOTE:
 /******************************************/
